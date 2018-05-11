@@ -5,14 +5,21 @@ casper.test.begin('Functions Checkout', function (test) {
     /* Fill Step Payment */
     casper.fillStepPayment = function () {
         this.echo("Choosing payment method and filling 'Payment Information' formular with " + currentBrandCC + "...", "INFO");
-        this.waitForSelector('#hipay_cc', function success() {
-            method_hipay = "hipay_cc";
-        }, function fail() {
-            test.assertVisible("#checkout-step-payment", "'Payment Information' formular exists");
-            test.info("Initial credential for api_user_name was :" + initialCredential);
-            this.fillFormHipayEnterprise(initialCredential);
-            test.assertVisible("#checkout-step-payment", "'Payment Information' formular exists");
-        }, 15000);
+
+        this.waitWhileVisible(".loading-mask", function () {
+            this.echo("Payment form loaded", "INFO");
+        });
+
+        this.then(function () {
+            this.waitForSelector('#hipay_cc', function success() {
+                method_hipay = "hipay_cc";
+            }, function fail() {
+                test.assertVisible("#checkout-step-payment", "'Payment Information' formular exists");
+                test.info("Initial credential for api_user_name was :" + initialCredential);
+                this.fillFormHipayEnterprise(initialCredential);
+                test.assertVisible("#checkout-step-payment", "'Payment Information' formular exists");
+            }, 15000);
+        });
 
         this.then(function () {
             this.echo("Filling payment form", "INFO");
