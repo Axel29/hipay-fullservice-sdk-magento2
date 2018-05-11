@@ -14,7 +14,8 @@ casper.test.begin('Functions Checkout', function (test) {
             test.assertVisible("#checkout-step-payment", "'Payment Information' formular exists");
         }, 15000);
 
-        this.then(function(){
+        this.then(function () {
+            this.echo("Filling payment form", "INFO");
             this.wait(1000, function () {
                 this.click('input#' + method_hipay);
 
@@ -31,10 +32,16 @@ casper.test.begin('Functions Checkout', function (test) {
                     this.fillFormMagentoCreditCard(cardsNumber.maestro);
                 }
 
+
+            });
+        });
+
+        this.then(function () {
+            this.wait(500, function () {
                 this.clickPayButton();
                 test.info("Done");
             });
-        })
+        });
     };
 
     /* Fill HiPayCC formular */
@@ -63,7 +70,7 @@ casper.test.begin('Functions Checkout', function (test) {
         }, 25000);
     };
 
-    casper.clickPayButton = function (){
+    casper.clickPayButton = function () {
         this.echo("Click Pay or continue Button ...", "INFO");
         this.click('.payment-method._active .actions-toolbar:not([style="display: none;"])>div>button.checkout');
     }

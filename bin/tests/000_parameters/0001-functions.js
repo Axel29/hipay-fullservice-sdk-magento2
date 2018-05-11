@@ -205,13 +205,14 @@ casper.test.begin('Functions', function (test) {
                     'select[name="groups[configurations][fields][fingerprint_enabled][value]"]': state
                 }, false);
                 this.click("#save");
-                this.waitForSelector(".message.message-success.success", function success() {
-                    test.info("HiPay Enterprise credentials configuration done");
-                }, function fail() {
-                    test.fail('Failed to apply HiPay Enterprise credentials configuration on the system');
-                }, 20000);
             }
-        })
+        }).then(function () {
+            this.waitForSelector(".message.message-success.success", function success() {
+                test.info("HiPay Enterprise credentials configuration done");
+            }, function fail() {
+                test.fail('Failed to apply HiPay Enterprise credentials configuration on the system');
+            }, 20000);
+        });
     };
 
     casper.echo('Fonctions chargées !', 'INFO');
